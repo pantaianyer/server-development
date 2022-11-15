@@ -122,4 +122,4 @@ docker-compose up --build
 
 ## LICENSE
 
-General MIT license: [view](/LICENSe)
+General MIT license: [view](/[(https://raw.githubusercontent.com/pantaianyer/server-development/main/LICENSE]
