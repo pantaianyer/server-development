@@ -1,0 +1,14 @@
+# This is a docker compose file for Dotnet Core server deployments
+# Project: https://gitlab.com/richardnagy/container-environments/server-deployments
+
+version: '3'
+services:
+  dotnet:
+    container_name: dotnet
+    hostname: dotnet
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8080
+    restart: unless-stopped

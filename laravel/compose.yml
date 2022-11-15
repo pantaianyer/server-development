@@ -1,0 +1,14 @@
+# This is a dockerfile for Laravel server deployments
+# Project: https://gitlab.com/richardnagy/container-environments/server-deployments
+
+version: '3'
+services:
+  laravel:
+    container_name: laravel
+    hostname: laravel
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 4000:8000
+    restart: unless-stopped

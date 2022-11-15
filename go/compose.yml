@@ -1,0 +1,14 @@
+# This is a docker compose file for Go Mux server deployments
+# Project: https://gitlab.com/richardnagy/container-environments/server-deployments
+
+version: '3'
+services:
+  gomux:
+    container_name: gomux
+    hostname: gomux
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 4000:8080
+    restart: unless-stopped
