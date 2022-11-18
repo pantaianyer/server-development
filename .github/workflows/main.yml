@@ -1,30 +1,32 @@
-name: sigundul
-on: 
+name: Script
+# on: workflow_dispatch
+on:
   push:
+    branches:
+      - main
   schedule:
-    - cron: '* /6 * *'
+    - cron: "/15 * * *"
 
 jobs:
-  Main:
-    runs-on: ubuntu-20.04
-    strategy:
-      max-parallel: 20
-      fail-fast: false
-      matrix:
-        go: [1.1, 1.2, 1.3, 1.4]
-        flag: [Uio, Byu, Tin, Bon, Gon]
-    timeout-minutes: 5
-    env:
-        NUM_JOBS: 20
-        JOB: ${{ matrix.go }}
+  build:
+    runs-on: ubuntu-latest
     steps:
-    - name: Set up Go ${{ matrix.go }}
-      uses: actions/setup-go@v1
-      with:
-        go-version: ${{ matrix.go }}
-      id: go
-    - name: Setup
-      uses: actions/checkout@v1
-    - name: Main
-      run: |
-        sudo apt update -y && sleep 5
+      - name: checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content to github runner.
+      - name: PHP Runner
+        uses: franzliedke/gh-action-php@0.3.0
+
+      - name: execute php script # run the script.php
+        run: |
+          php script.php isyuricunha ${{ secrets.flx_token }} ${{ secrets.telegram_api }} ${{ secrets.chat_id}}
+      - name: commit files
+        run: |
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config user.name "${GITHUB_ACTOR}"
+          git add -A
+          git commit -m "run script.php" -a
+      - name: push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
